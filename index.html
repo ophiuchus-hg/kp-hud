@@ -744,6 +744,7 @@ const ROUTES = [{"name": "長野道", "points": [[36.0521, 138.04279, 0.0], [36.
 
   function startWatching() {
     if (isWatching) return;
+    stopDemo();
 
     if (!('geolocation' in navigator)) {
       alertBannerEl.className = 'alert-banner error';
@@ -810,6 +811,39 @@ const ROUTES = [{"name": "長野道", "points": [[36.0521, 138.04279, 0.0], [36.
     statusTimeEl.innerHTML = '受信: <strong>--:--:--</strong>';
   }
 
+  // Demo: on page load, count KP down from 120.0 and speed from 120 km/h to 0 over 30 s.
+  // Pressing 開始 stops the demo and switches to live GPS.
+  let demoTimerId = null;
+
+  function stopDemo() {
+    if (demoTimerId !== null) {
+      clearInterval(demoTimerId);
+      demoTimerId = null;
+    }
+  }
+
+  function startDemo() {
+    stopDemo();
+    const DURATION_MS = 30000;
+    const startTs = performance.now();
+    routeNameEl.textContent = 'デモ';
+    updateDirectionDisplay(0);
+    setStatus('デモ', '');
+    kpValueEl.textContent = formatKp(120);
+    speedValueEl.textContent = '120';
+    demoTimerId = setInterval(() => {
+      const remain = 1 - clamp((performance.now() - startTs) / DURATION_MS, 0, 1);
+      kpValueEl.textContent = formatKp(120 * remain);
+      speedValueEl.textContent = String(Math.round(120 * remain));
+      if (remain <= 0) {
+        stopDemo();
+        kpValueEl.textContent = formatKp(0);
+        speedValueEl.textContent = '0';
+        setStatus('デモ終了', '');
+      }
+    }, 50);
+  }
+
   toggleBtn.addEventListener('click', () => {
     if (isWatching) {
       stopWatching();
@@ -829,6 +863,8 @@ const ROUTES = [{"name": "長野道", "points": [[36.0521, 138.04279, 0.0], [36.
       acquireWakeLock();
     }
   });
+
+  startDemo();
 })();
 </script>
 </body>
