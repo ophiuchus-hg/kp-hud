@@ -151,6 +151,7 @@
     margin-left: -1.15ch;
     flex: 0 0 auto;
     text-align: right;
+    white-space: nowrap;
   }
 
   .kp-unit {
@@ -192,6 +193,7 @@
   .offroute .kp-value {
     color: #f87171;
     font-size: min(14vw, 14vh);
+    text-align: center;
   }
 
   .offroute .kp-unit {
@@ -685,10 +687,10 @@ const ROUTES = [{"name": "長野道", "points": [[36.0521, 138.04279, 0.0], [36.
       direction = 0;
 
       mainArea.className = 'main offroute';
-      routeNameEl.textContent = '路線外';
+      routeNameEl.textContent = '';
       updateDirectionDisplay(0);
       kpValueEl.textContent = '路線外';
-      setStatus('路線外', 'state-warn');
+      setStatus('測位中', 'state-live');
     }
   }
 
