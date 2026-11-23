@@ -126,6 +126,8 @@
     letter-spacing: -0.03em;
     color: #4ade80;
     line-height: 0.95;
+    min-width: 4.8ch;
+    text-align: right;
   }
 
   .kp-unit {
@@ -142,6 +144,8 @@
     letter-spacing: -0.03em;
     color: #fff;
     line-height: 0.95;
+    min-width: 3.2ch;
+    text-align: right;
   }
 
   .speed-unit {
@@ -322,6 +326,7 @@
       <span id="statusState" class="status-item">状態: <strong>停止中</strong></span>
       <span id="statusAcc" class="status-item">精度: <strong>--</strong></span>
       <span id="statusTime" class="status-item">受信: <strong>--:--:--</strong></span>
+      <span id="statusClock" class="status-item">時刻: <strong>--:--:--</strong></span>
     </div>
     <div class="controls">
       <button id="toggleBtn" class="btn" type="button">開始</button>
@@ -380,6 +385,7 @@ const ROUTES = [{"name": "長野道", "points": [[36.0521, 138.04279, 0.0], [36.
   const statusStateEl = document.getElementById('statusState');
   const statusAccEl = document.getElementById('statusAcc');
   const statusTimeEl = document.getElementById('statusTime');
+  const statusClockEl = document.getElementById('statusClock');
   const toggleBtn = document.getElementById('toggleBtn');
   const mirrorBtn = document.getElementById('mirrorBtn');
 
@@ -863,6 +869,12 @@ const ROUTES = [{"name": "長野道", "points": [[36.0521, 138.04279, 0.0], [36.
       acquireWakeLock();
     }
   });
+
+  function updateClock() {
+    statusClockEl.innerHTML = `時刻: <strong>${formatTime(Date.now())}</strong>`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
 
   startDemo();
 })();
