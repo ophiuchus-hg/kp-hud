@@ -192,12 +192,12 @@
 
   .offroute .kp-value {
     color: #f87171;
-    font-size: min(14vw, 14vh);
-    text-align: center;
+    transform: scale(0.9);
+    transform-origin: right center;
   }
 
   .offroute .kp-unit {
-    display: none;
+    visibility: hidden;
   }
 
   .unknown-pos .kp-value,
@@ -309,10 +309,6 @@
 
     .speed-unit {
       font-size: min(3.8vw, 9vh);
-    }
-
-    .offroute .kp-value {
-      font-size: min(9vw, 22vh);
     }
 
     .footer {
